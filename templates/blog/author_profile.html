@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Posts by {{ author_user.username }}</h1>
+    {% for post in posts %}
+        <div style="border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+            <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+            <p>Category: {{ post.category.name }}</p>
+        </div>
+    {% empty %}
+        <p>This author hasn't published any posts yet.</p>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </div>
+{% endblock %}
